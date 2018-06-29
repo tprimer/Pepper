@@ -1,0 +1,21 @@
+
+War Axe:
+    size: Medium
+    weight: 2
+    hands: 1
+    critRange: 6
+Dagger:
+    size: Small
+    weight: 0
+    hands: 1
+    critRange: AGI
+Greatsword:
+    size: Large
+    weight: 2
+    hands: 2
+    critRange: 6
+Longsword:
+    size: Medium
+    weight: 1
+    hands: 1
+    critRange: 5
