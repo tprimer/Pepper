@@ -27,7 +27,7 @@ class diceRolls:
     def getMaxDie(self):
         rolls = self.getRolls()
         maxDie = self.dice[rolls.index(max(rolls))]
-        return maxDie
+        return maxDieb
 
     def getMinDie(self):
         rolls = self.getRolls()
@@ -39,8 +39,9 @@ class diceRolls:
         return diceSum
 
     def joinRolls(self,additionalRolls):
-        self.dice = self.dice+additionalRolls.getRolls()
-        return self
+        joinedRolls = diceRolls(0)
+        joinedRolls.dice = self.dice+additionalRolls.dice
+        return joinedRolls
 
 def roll(n, d=6, mod=None, drop=0):
     set = []

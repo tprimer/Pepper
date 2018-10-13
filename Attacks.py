@@ -5,24 +5,26 @@ critDamage=6
 
 class Attack:
 
-    def __init__(self,targetDefence=7,attackBonus=0,vantage=None,weapon=yaml.safe_load(open("Weapons.yaml",'r'))["Longsword"]):
-        self.critRange = weapon.critRange
+    def __init__(self,targetDefence=7,attackBonus=1,vantage=None,weaponName="Longsword"):
+        weapon = yaml.safe_load(open("Weapons.yaml",'r'))[weaponName]
+        self.critRange = weapon['critRange']
         self.baseRoll = Dice.diceRolls([Dice.die() for die in range(2)])
         self.bonusRoll = Dice.diceRolls([Dice.die() for die in range(attackBonus)])
         # self.hitResult = self.checkForHit(self.baseRoll,targetDefence)
         self.hitResult = self.checkForHit(self.baseRoll.joinRolls(self.bonusRoll), targetDefence)
         self.hitTotal  = self.getHitTotal(self.baseRoll.joinRolls(self.bonusRoll))
         self.critResult = self.checkForCrit(self.baseRoll,self.critRange)
-        self.hitDamage = Dice.die().roll*weapon.hands+strength*weapon.weight+int(self.critResult)*weapon.hands if self.hitResult else 0.0
+        self.hitDamage = Dice.die().roll*weapon['hands']+strength*weapon['weight']+int(self.critResult)*weapon['hands'] if self.hitResult else 0.0
 
     def checkForCrit(self,baseRoll,critRange):
         return baseRoll.getRolls()[0]==baseRoll.getRolls()[1] and baseRoll.getRolls()[0]>=critRange
 
     def checkForHit(self,diceRolls,targetDefence):
-        return sum(sorted(diceRolls.getRolls())[0:2])>=targetDefence
+        if type(diceRolls) != Dice.diceRolls: print('Type = '+str(type(diceRolls)))
+        return sum(sorted(diceRolls.getRolls())[-2:])>=targetDefence
 
     def getHitTotal(self,diceRolls):
-        return sum(sorted(diceRolls.getRolls())[0:2])
+        return sum(sorted(diceRolls.getRolls())[-2:])
 
     def printResults(self):
         hitOrMiss = "Hit!" if self.hitResult else "Miss"
